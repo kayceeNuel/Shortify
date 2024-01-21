@@ -11,8 +11,8 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-  @Post('shorten') 
-  shorten(@Query('url') url:string): Observable<string>{
-     return this.appService.shorten(url)
-  }
+  // @Post('shorten') 
+  // shorten(@Query('url') url:string): Observable<string>{
+  //    return this.appService.shorten(url)
+  // }
 }
