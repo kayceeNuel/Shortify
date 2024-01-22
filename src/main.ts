@@ -12,6 +12,6 @@ export async function bootstrap() {
 
   await app.listen(port);
   
-  logger.log(`servering listening on port${port}`);
+  logger.log(`server listening on port${port}`);
 }
 bootstrap();
