@@ -1,18 +1,13 @@
-import { Controller, Get, Post, Query} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { url } from 'inspector';
-import { Observable } from 'rxjs';
+
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('/404')
+  getHello() {
+    return {statuscode: 404, message: 'This URL does not exist'};
   }
-  // @Post('shorten') 
-  // shorten(@Query('url') url:string): Observable<string>{
-  //    return this.appService.shorten(url)
-  // }
 }
