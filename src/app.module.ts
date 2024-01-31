@@ -4,9 +4,7 @@ import { AppService } from './app.service';
 import { UrlModule }  from 'src/url-shortener/url.module';
 
 @Module({
-  imports: [
-    UrlModule,
-  ],
+  imports: [ UrlModule, ],
   controllers: [AppController],
   providers: [AppService],
 })
