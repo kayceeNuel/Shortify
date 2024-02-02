@@ -1,9 +1,13 @@
 
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean} from 'class-validator';
 
-export class createUrlDto {
+export class CreateUrlDto {
     @IsString() 
     @IsNotEmpty()
     longUrl: string;
+
+    @IsBoolean()
+    redirect: boolean;
+    
 }
 
