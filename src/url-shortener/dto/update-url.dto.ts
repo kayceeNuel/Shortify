@@ -1,4 +1,4 @@
 import { PartialType } from "@nestjs/mapped-types";
-import { createUrlDto } from "./create-url.dto";
+import { CreateUrlDto } from "./create-url.dto";
 
-export class UpdateUrlDto extends PartialType(createUrlDto) {};
+export class UpdateUrlDto extends PartialType(CreateUrlDto) {};
