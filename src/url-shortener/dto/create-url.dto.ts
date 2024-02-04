@@ -6,8 +6,6 @@ export class CreateUrlDto {
     @IsNotEmpty()
     longUrl: string;
 
-    @IsBoolean()
-    redirect: boolean;
     
 }
 
