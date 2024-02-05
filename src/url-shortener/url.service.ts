@@ -1,87 +1,72 @@
-
-
-import { 
-    Injectable,
-    BadRequestException,
-    NotFoundException, 
-    UnprocessableEntityException
-} from "@nestjs/common";
+import { Injectable, BadRequestException, NotFoundException, UnprocessableEntityException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { nanoid } from "nanoid";
-import { isURL } from "class-validator"; 
+import { isURL } from "class-validator";
 import { Repository } from "typeorm";
 import { CreateUrlDto } from "./dto/create-url.dto";
 import { UpdateUrlDto } from "./dto/update-url.dto";
 import { UrlEntity } from '../entity/url.entity'
 
-
-Injectable() 
+@Injectable()
 export class UrlService {
     private readonly baseURL = 'http://localhost:3000';
     private readonly urlCodeLength = 8;
-    
-    constructor ( 
+
+    constructor(
         @InjectRepository(UrlEntity)
-        private repo: Repository <UrlEntity>,
-    ) {}
+        private repo: Repository<UrlEntity>,
+    ) { }
 
-    async create (createUrlDto: CreateUrlDto) {
+    async create(createUrlDto: CreateUrlDto) {
         const { longUrl } = createUrlDto;
-        if (!isURL (longUrl)) {
-            throw new BadRequestException ('Invaild URL format');
-        };
+        if (!isURL(longUrl)) {
+            throw new BadRequestException('Invalid URL format');
+        }
 
-        const urlCode = nanoid(this.urlCodeLength)
+        const existingUrl = await this.repo.findOneBy({ longUrl });
+        if (existingUrl) {
+            return existingUrl.shortUrl;
+        }
 
+        const urlCode = nanoid(this.urlCodeLength);
+        const shortUrl = `${this.baseURL}/${urlCode}`;
+
+        const url = this.repo.create({
+            longUrl,
+            shortUrl,
+        });
+
+        await this.repo.save(url);
+        return url.shortUrl;
+    }
+
+    async redirect(redirectUrl: string) {
         try {
-            //check if the originalURL is shortened 
-            let url = await this.repo.findOne({ longUrl });
-            //return if it exits
-            if(url) {
-                return url.shortUrl;
+            const url = await this.repo.findOneBy({ shortUrl: redirectUrl });
+
+            if (url) {
+                return url.longUrl;
+            } else {
+                throw new NotFoundException('URL not found');
             }
-            //if it doesn't exit shorten it
-            const shortUrl = `${this.baseURL}/${urlCode}`;
-
-            url = this.repo.create({
-                urlCode,
-                longUrl,
-                shortUrl,
-                
-            });
-
-            await this.repo.save(url)
-            return url.shortUrl
-        }   catch(error) {
-            throw new UnprocessableEntityException ('Server Error');
+        } catch (error) {
+            throw new NotFoundException('URL not found');
         }
     }
-    
-    async redirect(urlCode: string) {
-        try {
-          const url = await this.repo.findOne({ urlCode });
-    
-          if (url) {
-            return url.longUrl;
-          }
-        } catch (error) {
-          throw new NotFoundException('Resource Not Found');
-        }
-      }
-    
-      findAll() {
+
+    findAll() {
         return 'This action returns all URLs';
-      }
-    
-      findOne(id: number) {
+    }
+
+    findOne(id: number) {
         return `This action returns URL with id #${id}`;
-      }
-    
-      update(id: number, updateUrlDto: UpdateUrlDto) {
+    }
+
+    update(id: number, updateUrlDto: UpdateUrlDto) {
         return `This action updates URL with id #${id}`;
-      }
-    
-      remove(id: number) {
+    }
+
+    remove(id: number) {
         return `This action removes URL with id #${id}`;
-      }
+    }
 }
