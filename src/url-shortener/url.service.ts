@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, NotFoundException, UnprocessableEntityException } from "@nestjs/common";
+import { Injectable, BadRequestException, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { nanoid } from "nanoid";
 import { isURL } from "class-validator";
