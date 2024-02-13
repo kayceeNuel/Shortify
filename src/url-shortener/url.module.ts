@@ -1,12 +1,9 @@
 import { Module } from "@nestjs/common";
-import { UrlController } from "./url.contoller";
-import { UrlService } from "./url.service"
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UrlEntity } from "../entity/url.entity";
+import { UrlController } from "./url.contoller"; 
+import { UrlService } from "./url.service"; 
 
-@Module({
-    imports: [TypeOrmModule.forFeature([UrlEntity])],
-    controllers: [UrlController],
-    providers: [UrlService], 
-})
-export class UrlModule {};
+@Module ({
+    controllers: [UrlController], 
+    providers: [ UrlService]
+}) 
+export class UrlModule {}
