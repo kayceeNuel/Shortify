@@ -1,7 +1,16 @@
-import { Module } from '@nestjs/common';
-import { UrlModule }  from 'src/url-shortener/url.module';
+import { Module } from "@nestjs/common";
+import { UrlModule } from "./url-shortener/url.module";
+import { ConfigModule } from "@nestjs/config";
 
-@Module({
-  imports: [ UrlModule, ],
+
+
+@Module ({ 
+  imports: [
+    ConfigModule.forRoot( { isGlobal: true}),
+    UrlModule,
+  ], 
+  controllers: [],
+  providers: [], 
 })
-export class AppModule {}
+
+ export class AppModule {}
