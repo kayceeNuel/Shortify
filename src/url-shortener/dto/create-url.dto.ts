@@ -1,11 +1,11 @@
+import { IsString, IsUrl, IsOptional } from "class-validator"; 
 
-import { IsString, IsNotEmpty, IsBoolean} from 'class-validator';
 
-export class CreateUrlDto {
-    @IsString() 
-    @IsNotEmpty()
-    longUrl: string;
+export class CreateUrlDto { 
+    @IsUrl({}, { message: 'Invalid URL format' })
+    readonly originalUrl: string;
 
-    
+    @IsString()
+    @IsOptional()
+   readonly shortUrl?: string;
 }
-
