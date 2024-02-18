@@ -5,15 +5,10 @@ import { Column,Entity, PrimaryGeneratedColumn } from "typeorm";
     @PrimaryGeneratedColumn() 
     id: number;
 
-
-    @Column({ unique: true}) 
-    shortUrl: String;
-
+    @Column() 
+    orginialUrl: string;
 
     @Column() 
-    longUrl: String;
-
-
-    @Column({nullable: true})
-    redirectUrl: String | null
+    shortUrl: string;
+   
 };
