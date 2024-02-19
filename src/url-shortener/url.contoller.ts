@@ -2,13 +2,15 @@ import {
     Controller, 
     Get, 
     Post, 
-    Body 
+    Body, 
+    UsePipes,
+    ValidationPipe
 } from "@nestjs/common";
 import { UrlService } from './url.service'; 
 import { CreateUrlDto } from "./dto/create-url.dto"; 
 import { UpdateUrlDto } from "./dto/update-url.dto";
 import type { Url } from "../entity/url.entity";
-import { promises } from "dns";
+
 
 @Controller('urls')
 export class UrlController {
@@ -19,4 +21,9 @@ export class UrlController {
         return this.urlService.fetchAllUrl()
     }
    
+    @Post() 
+    @UsePipes(ValidationPipe)
+    createUrl(@Body() createUrlDto: CreateUrlDto): Promise<Url> {
+        return this.urlService.createUrl(createUrlDto)
+    }
 }
