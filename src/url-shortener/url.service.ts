@@ -3,6 +3,9 @@ import { Repository } from "typeorm";
 import { Url } from '../entity/url.entity';
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateUrlDto } from "./dto/create-url.dto";
+import { nanoid } from "nanoid";
+
+
 
 
 Injectable() 
@@ -10,13 +13,21 @@ export class UrlService {
     constructor (
         @InjectRepository(Url)  private readonly urlRepository : Repository<Url>  ) {}
 
-        //get All Url links
-        async fetchAllUrl(): Promise<Url[]> {
-            return this.urlRepository.find(); 
+        //create Url.
+        async createUrl (createUrlDto:CreateUrlDto) {
+            //generate URL
+            const shortUrl = nanoid(8); 
+
+            const url = this.urlRepository.create({
+                orginialUrl: createUrlDto.originalUrl, 
+                shortUrl: shortUrl
+            });
+            //save generated URLs to the DB
+            return this.urlRepository.save(url);
         }
 
-        
-        async createUrl (createUrlDto:CreateUrlDto) {
-            return this.urlRepository.create (createUrlDto)
+         //get All Url links
+         async fetchAllUrl(): Promise<Url[]> {
+            return this.urlRepository.find(); 
         }
 }
