@@ -16,12 +16,12 @@ export class UrlService {
         //create Url.
         async createUrl (createUrlDto:CreateUrlDto) {
             //generate URL
-            const shortUrl = nanoid(8); 
+           const shortUrl = nanoid(8); 
 
-            const url = this.urlRepository.create({
-                orginialUrl: createUrlDto.originalUrl, 
-                shortUrl: shortUrl
-            });
+           const url = this.urlRepository.create({
+               originalUrl: createUrlDto.originalUrl, // Corrected property name
+               shortUrl: shortUrl
+           });
             //save generated URLs to the DB
             return this.urlRepository.save(url);
         }

@@ -6,7 +6,7 @@ import { Column,Entity, PrimaryGeneratedColumn } from "typeorm";
     id: number;
 
     @Column() 
-    orginialUrl: string;
+    originalUrl: string;
 
     @Column() 
     shortUrl: string;
