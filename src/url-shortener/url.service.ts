@@ -19,7 +19,7 @@ export class UrlService {
            const shortUrl = nanoid(8); 
 
            const url = this.urlRepository.create({
-               originalUrl: createUrlDto.originalUrl, // Corrected property name
+               originalUrl: createUrlDto.originalUrl, 
                shortUrl: shortUrl
            });
             //save generated URLs to the DB
