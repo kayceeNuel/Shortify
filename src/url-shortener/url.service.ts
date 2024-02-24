@@ -30,4 +30,9 @@ export class UrlService {
          async fetchAllUrl(): Promise<Url[]> {
             return this.urlRepository.find(); 
         }
+
+        //Handing Urls redirection
+     async redirectUrl = (shortUrl: string):{
+        
+     }
 }

@@ -4,12 +4,13 @@ import {
     Post, 
     Body, 
     UsePipes,
-    ValidationPipe
+    ValidationPipe,
+    Param
 } from "@nestjs/common";
 import { UrlService } from './url.service'; 
 import { CreateUrlDto } from "./dto/create-url.dto"; 
 import { UpdateUrlDto } from "./dto/update-url.dto";
-import type { Url } from "../entity/url.entity";
+import { Url } from "../entity/url.entity";
 
 
 @Controller('urls')
@@ -25,5 +26,11 @@ export class UrlController {
     @UsePipes(ValidationPipe)
     createUrl(@Body() createUrlDto: CreateUrlDto): Promise<Url> {
         return this.urlService.createUrl(createUrlDto)
+    }
+
+    @Get(':shortUrl') 
+    async redirectToOriginalUrl(@Param('shortUrl') shortUrl: string) {
+        const originalUrl = await this.urlService.redirectUrl(shortUrl);
+        return { Url: originalUrl, statusCode: 301};
     }
 }
