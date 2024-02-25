@@ -31,8 +31,12 @@ export class UrlService {
             return this.urlRepository.find(); 
         }
 
-        //Handing Urls redirection
-     async redirectUrl = (shortUrl: string):{
+        async redirectUrl  (shortUrl: string): Promise<string> {
+            const url = await this.urlRepository.findOneBy({ shortUrl}) 
         
-     }
-}
+            if (!url) {
+                throw new Error(' Url not found ')
+            }
+            return url.originalUrl
+        } 
+    }
