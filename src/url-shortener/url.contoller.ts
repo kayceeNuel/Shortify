@@ -10,9 +10,7 @@
     } from "@nestjs/common";
     import { UrlService } from './url.service'; 
     import { CreateUrlDto } from "./dto/create-url.dto"; 
-    import { UpdateUrlDto } from "./dto/update-url.dto";
     import { Url } from "../entity/url.entity";
-
 
     @Controller('urls')
     export class UrlController {
